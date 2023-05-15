@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+
+  node:
+    build:
+      context: .
+      dockerfile: ./images/node//Dockerfile
+    image: node:18.15-alpine-yarn
+    container_name: knitto-rizki-node
+    restart: unless-stopped
+    working_dir: /var/www/knitto
+    ports:
+      - ${NODE_PORT}:3000
+    volumes:
+      - ./code:/var/www/knitto
+    command: >
+      sh -c "yarn install && node server.js"
+
+  mariadb:
+    image: mariadb:10.10
+    container_name: knitto-rizki-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: knitto
+      MARIADB_PASSWORD: knitto
+      MARIADB_DATABASE: db_project_rizki
+    volumes:
+      - ./volumes/data:/var/lib/mysql
