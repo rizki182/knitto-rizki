@@ -57,5 +57,25 @@ module.exports = {
         } finally {
             conn.end();
         }
+    },
+
+    async update(id, params) {
+        let response = {}
+        let conn = await getPool().getConnection();
+        conn.beginTransaction();
+        
+        try {
+            const update = await conn.query("update product set name = ?, price = ? where id = ?", [params["name"], params["price"], id]);
+            const result = await conn.query("select * from product where id = ?", [id]);
+            await  conn.commit();
+
+            response = result[0];
+            return response;
+        } catch (err) {
+            await  conn.rollback();
+            throw err;
+        } finally {
+            conn.end();
+        }
     }
 }
