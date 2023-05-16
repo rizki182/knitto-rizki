@@ -10,7 +10,7 @@ app.use(express.json());
 // routers and middlewares
 // product
 const productRouter = require("./routers/product_router");
-app.use("/", productRouter);
+app.use("/product", productRouter);
 
 // listen
 app.listen(port);
