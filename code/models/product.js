@@ -77,5 +77,25 @@ module.exports = {
         } finally {
             conn.end();
         }
+    },
+
+    async delete(id, params) {
+        let response = {}
+        let conn = await getPool().getConnection();
+        conn.beginTransaction();
+        
+        try {
+            const result = await conn.query("select * from product where id = ?", [id]);
+            const remove = await conn.query("delete from product where id = ?", [id]);
+            await  conn.commit();
+
+            response = result[0];
+            return response;
+        } catch (err) {
+            await  conn.rollback();
+            throw err;
+        } finally {
+            conn.end();
+        }
     }
 }
