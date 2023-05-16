@@ -10,7 +10,7 @@ module.exports = {
             const result = await conn.query("select * from product");
             await  conn.commit();
 
-            response = result.rows;
+            response = result;
             return response;
         } catch (err) {
             await  conn.rollback();
