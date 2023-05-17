@@ -16,4 +16,4 @@ const productRouter = require("./routers/product_router");
 app.use("/product", productRouter);
 
 // listen
-app.listen(port);
+module.exports = app.listen(port);
