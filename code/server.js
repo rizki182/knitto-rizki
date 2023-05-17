@@ -9,6 +9,9 @@ app.use(express.json());
 
 // routers and middlewares
 // product
+const productMiddleware = require("./middlewares/product_middleware");
+app.use("/product", productMiddleware);
+
 const productRouter = require("./routers/product_router");
 app.use("/product", productRouter);
 
